@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - start
+      - test
 
 env:
   CARGO_TERM_COLOR: always
