@@ -6,10 +6,12 @@ Rego is the language used to define policies in the https://www.openpolicyagent.
 
 This Operator will watch for new rules and will create a bundle out of all rules in the watched namespace and will make it available via a simple web server under the URL `opa/v1/opa/bundle.tar.gz`.
 
+Currently, the bundle file will be created on disk in the current working directory.
+
 == Building
 
 This operator is written in Rust.
-It is developed against the latest Rust release (1.51 at the time of writing this).
+It is developed against the latest Rust release (1.51 at the time of writing this), earlier versions might work but are untested.
 
     cargo build --release
 
@@ -31,3 +33,27 @@ export WATCH_NAMESPACE=foobar
 stackable-regorule-operator-server --port 1234
 ----
 
+== Configuring OPA
+
+You need to configure OPA to query our server.
+
+.Example configuration snippet: `config.yaml`
+[source,yaml]
+----
+services:
+  - name: stackable
+    url: http://localhost:3030/opa/v1
+
+bundles:
+  stackable:
+    service: stackable
+    resource: opa/bundle.tar.gz
+    persist: true
+    polling:
+      min_delay_seconds: 10
+      max_delay_seconds: 20
+----
+
+You can then run OPA like this:
+
+    opa run -s -c config.yaml
