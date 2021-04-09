@@ -1689,35 +1689,7 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 [[package]]
 name = "stackable-operator"
 version = "0.1.0"
-source = "git+https://github.com/stackabletech/operator-rs.git?branch=main#ceea8742e6d1a53eb14588915e350cc2d406f802"
-dependencies = [
- "async-trait",
- "chrono",
- "const_format",
- "either",
- "futures",
- "json-patch",
- "k8s-openapi",
- "kube",
- "kube-runtime",
- "lazy_static",
- "regex",
- "schemars",
- "serde",
- "serde_json",
- "serde_yaml",
- "thiserror",
- "tokio",
- "tracing",
- "tracing-futures",
- "tracing-subscriber",
- "uuid",
-]
-
-[[package]]
-name = "stackable-operator"
-version = "0.1.0"
-source = "git+https://github.com/stackabletech/operator-rs.git?branch=namespaces#c8fe67b00cef84aa8758d2ef958fde667805b309"
+source = "git+https://github.com/stackabletech/operator-rs.git?branch=main#bb81ea981c85b60eec3d957c3d8d7f1b38aef846"
 dependencies = [
  "async-trait",
  "chrono",
@@ -1753,7 +1725,7 @@ dependencies = [
  "schemars",
  "serde",
  "serde_json",
- "stackable-operator 0.1.0 (git+https://github.com/stackabletech/operator-rs.git?branch=main)",
+ "stackable-operator",
 ]
 
 [[package]]
@@ -1769,7 +1741,7 @@ dependencies = [
  "rstest",
  "serde",
  "serde_json",
- "stackable-operator 0.1.0 (git+https://github.com/stackabletech/operator-rs.git?branch=namespaces)",
+ "stackable-operator",
  "stackable-regorule-crd",
  "tar",
  "thiserror",
@@ -1784,7 +1756,7 @@ version = "0.1.0-nightly"
 dependencies = [
  "anyhow",
  "serde_yaml",
- "stackable-operator 0.1.0 (git+https://github.com/stackabletech/operator-rs.git?branch=namespaces)",
+ "stackable-operator",
  "stackable-regorule-crd",
  "stackable-regorule-operator",
  "stackable_config",

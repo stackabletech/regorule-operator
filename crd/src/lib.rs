@@ -19,5 +19,5 @@ pub struct RegoRuleSpec {
 
 impl Crd for RegoRule {
     const RESOURCE_NAME: &'static str = "regorule.opa.stackable.tech";
-    const CRD_DEFINITION: &'static str = include_str!("../opa.crd.yaml");
+    const CRD_DEFINITION: &'static str = include_str!("../../deploy/crd/regorule.crd.yaml");
 }
