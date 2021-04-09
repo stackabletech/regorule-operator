@@ -1,4 +1,3 @@
-use serde_yaml;
 use stackable_regorule_crd::RegoRule;
 use std::error::Error;
 

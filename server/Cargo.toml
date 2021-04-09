@@ -4,7 +4,8 @@ description = "Stackable RegoRule Operator"
 version = "0.1.0-nightly"
 authors = ["Lars Francke <lars.francke@stackable.de>"]
 edition = "2018"
-license = "Apache-2.0"
+license = "OSL-3.0"
+description = "A RegoRule Operator for Kubernetes"
 
 [dependencies]
 stackable_config = { git = "https://github.com/stackabletech/common.git", branch = "main" }

@@ -5,7 +5,6 @@ use flate2::Compression;
 use futures::StreamExt;
 use kube::api::{ListParams, Meta};
 use kube::Api;
-use kube_runtime;
 use kube_runtime::reflector::store::Writer;
 use kube_runtime::reflector::Store;
 use kube_runtime::{reflector, utils};
@@ -68,7 +67,7 @@ pub async fn create_controller(
     let rf = reflector(store, kube_runtime::watcher(api, ListParams::default()));
 
     // need to run/drain the reflector - so utilize the for_each to rebuild the bundle files
-    let drainer = utils::try_flatten_touched(rf)
+    utils::try_flatten_touched(rf)
         // Convert from Result<> to Option<>, discarding any Err values
         .filter_map(|x| async move { std::result::Result::ok(x) })
         .for_each(move |resource| {
@@ -76,8 +75,7 @@ pub async fn create_controller(
             // TODO: Later allow to configure what should happen in case of a failure
             rebuild_bundle(&reader).expect("Building the bundle failed, panicing!");
             futures::future::ready(())
-        });
-    drainer
+        })
 }
 
 pub async fn create_server(port: u16) -> impl Future<Output = ()> {
@@ -87,8 +85,7 @@ pub async fn create_server(port: u16) -> impl Future<Output = ()> {
     let bundle =
         warp::path!("opa" / "v1" / "opa" / "bundle.tar.gz").and(warp::fs::file("bundle.tar.gz"));
     let bundle = bundle.with(warp::log("bundle"));
-    let warp = warp::serve(bundle).run(([0, 0, 0, 0], port));
-    warp
+    warp::serve(bundle).run(([0, 0, 0, 0], port))
 }
 
 pub async fn run_reflector_and_server(client: Client, namespace: WatchNamespace, port: u16) {

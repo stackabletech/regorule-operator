@@ -3,6 +3,8 @@ name = "stackable-regorule-operator"
 version = "0.1.0"
 authors = ["Lars Francke <lars.francke@stackable.de>"]
 edition = "2018"
+description = "Kubernetes Operator library to deal with RegoRule custom resources"
+license = "OSL-3.0"
 
 [dependencies]
 stackable-regorule-crd = { path = "../crd" }
