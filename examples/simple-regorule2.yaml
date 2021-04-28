@@ -1,0 +1,9 @@
+apiVersion: opa.stackable.tech/v1
+kind: RegoRule
+metadata:
+  name: pi
+spec:
+  rego: |
+    package barfoo
+
+    pi := 3.14159

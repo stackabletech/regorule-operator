@@ -1,0 +1,9 @@
+apiVersion: opa.stackable.tech/v1
+kind: RegoRule
+metadata:
+  name: simple
+spec:
+  rego: |
+    package foobar
+
+    simple := foo
