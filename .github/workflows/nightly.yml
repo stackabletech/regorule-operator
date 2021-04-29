@@ -21,7 +21,6 @@ jobs:
       - name: Publish apt package
         run: >-
           /usr/bin/curl
-          -vvvv
           --fail
           -u 'github:${{ secrets.NEXUS_PASSWORD }}'
           -H "Content-Type: multipart/form-data"
@@ -44,7 +43,6 @@ jobs:
       - name: Publish RPM package
         run: >-
           /usr/bin/curl
-          -vvvv
           --fail
           -u 'github:${{ secrets.NEXUS_PASSWORD }}'
           --upload-file "./$(find  target/rpm/RPMS/x86_64/ -name *.rpm)"
