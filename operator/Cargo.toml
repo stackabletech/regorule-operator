@@ -25,4 +25,4 @@ tracing = "0.1"
 warp = "0.3"
 
 [dev-dependencies]
-rstest = "0.7"
+rstest = "0.9"
