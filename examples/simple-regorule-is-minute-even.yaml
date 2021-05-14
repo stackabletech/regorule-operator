@@ -17,5 +17,5 @@ spec:
     }
 
     is_minute_even {
-      round(time.now_ns() / (1000 * 1000 * 1000 * 60)) % 2 == 0
+      floor(time.now_ns() / (1000 * 1000 * 1000 * 60)) % 2 == 0
     }
