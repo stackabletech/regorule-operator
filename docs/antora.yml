@@ -1,0 +1,5 @@
+name: regorule
+version: master
+title: Stackable Operator for OpenPolicyAgent Rego rules
+nav:
+  - modules/ROOT/nav.adoc
