@@ -1763,7 +1763,7 @@ dependencies = [
 [[package]]
 name = "stackable_config"
 version = "0.1.0-nightly"
-source = "git+https://github.com/stackabletech/common.git?branch=main#e3940218d2f81b6dfef0200d67a3a9d136bfd0e3"
+source = "git+https://github.com/stackabletech/common.git?branch=main#127b7d2cc349f59a5751354c5109a118ad74e0e5"
 dependencies = [
  "anyhow",
  "bstr",
