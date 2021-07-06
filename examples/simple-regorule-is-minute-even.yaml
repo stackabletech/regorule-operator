@@ -9,6 +9,10 @@ spec:
     default allow = false
 
     allow {
+      is_cluster
+    }
+
+    allow {
       not deny
     }
 
@@ -18,4 +22,8 @@ spec:
 
     is_minute_even {
       floor(time.now_ns() / (1000 * 1000 * 1000 * 60)) % 2 == 0
+    }
+
+    is_cluster {
+      input.action.resourcePattern.resourceType == "CLUSTER"
     }
