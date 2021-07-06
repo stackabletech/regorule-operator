@@ -25,5 +25,5 @@ spec:
     }
 
     is_cluster {
-      input.input.action.resourcePattern.resourceType == "CLUSTER"
+      input.action.resourcePattern.resourceType == "CLUSTER"
     }
