@@ -15,6 +15,7 @@ use stackable_operator::Crd;
     version = "v1",
     kind = "RegoRule",
     shortname = "rego",
+    plural = "regorules",
     namespaced
 )]
 pub struct RegoRuleSpec {
@@ -22,6 +23,6 @@ pub struct RegoRuleSpec {
 }
 
 impl Crd for RegoRule {
-    const RESOURCE_NAME: &'static str = "regorule.opa.stackable.tech";
+    const RESOURCE_NAME: &'static str = "regorules.opa.stackable.tech";
     const CRD_DEFINITION: &'static str = include_str!("../../deploy/crd/regorule.crd.yaml");
 }
