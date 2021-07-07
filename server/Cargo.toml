@@ -7,7 +7,7 @@ edition = "2018"
 license = "OSL-3.0"
 
 [dependencies]
-stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", branch = "main" }
+stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", branch = "adapt_to_product_config_interface" }
 stackable-regorule-crd = { path = "../crd" }
 stackable-regorule-operator = { path = "../operator" }
 stackable_config = { git = "https://github.com/stackabletech/common.git", branch = "main" }
