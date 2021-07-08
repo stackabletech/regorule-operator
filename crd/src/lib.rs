@@ -1,7 +1,6 @@
 use kube::CustomResource;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use stackable_operator::Crd;
 
 /// The spec for a RegoRule only has a single field: `rego`.
 ///
@@ -12,7 +11,7 @@ use stackable_operator::Crd;
 )]
 #[kube(
     group = "opa.stackable.tech",
-    version = "v1",
+    version = "v1alpha1",
     kind = "RegoRule",
     shortname = "rego",
     plural = "regorules",
@@ -20,9 +19,4 @@ use stackable_operator::Crd;
 )]
 pub struct RegoRuleSpec {
     pub rego: String,
-}
-
-impl Crd for RegoRule {
-    const RESOURCE_NAME: &'static str = "regorules.opa.stackable.tech";
-    const CRD_DEFINITION: &'static str = include_str!("../../deploy/crd/regorule.crd.yaml");
 }

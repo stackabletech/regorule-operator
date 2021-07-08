@@ -2,7 +2,7 @@ mod config;
 
 use crate::config::RegoRuleConfig;
 use stackable_config::ConfigBuilder;
-use stackable_operator::crd::Crd;
+use stackable_operator::crd::CustomResourceExt;
 use stackable_operator::{client, error};
 use stackable_regorule_crd::RegoRule;
 use std::env;
@@ -21,12 +21,9 @@ async fn main() -> Result<(), error::Error> {
 
     let client = client::create_client(None).await?;
 
-    if let Err(error) = stackable_operator::crd::wait_until_crds_present(
-        &client,
-        vec![RegoRule::RESOURCE_NAME],
-        None,
-    )
-    .await
+    if let Err(error) =
+        stackable_operator::crd::wait_until_crds_present(&client, vec![&RegoRule::crd_name()], None)
+            .await
     {
         error!("Required CRDs missing, aborting: {:?}", error);
     };

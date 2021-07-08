@@ -8,7 +8,7 @@ version = "0.1.0"
 
 [dependencies]
 stackable-regorule-crd = { path = "../crd" }
-stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", branch = "adapt_to_product_config_interface" }
+stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", branch = "main" }
 
 async-trait = "0.1"
 flate2 = "1.0"
