@@ -26,6 +26,7 @@ async fn main() -> Result<(), error::Error> {
             .await
     {
         error!("Required CRDs missing, aborting: {:?}", error);
+        return Err(error);
     };
 
     let watch_namespace = stackable_operator::namespace::get_watch_namespace()?;

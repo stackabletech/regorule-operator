@@ -1827,11 +1827,9 @@ version = "0.1.0-nightly"
 dependencies = [
  "k8s-openapi",
  "kube",
- "kube-runtime",
  "schemars",
  "serde",
  "serde_json",
- "serde_yaml",
  "stackable-operator",
 ]
 
