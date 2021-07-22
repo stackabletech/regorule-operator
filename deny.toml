@@ -25,7 +25,9 @@ deny = [
 ]
 
 exceptions = [
-    { name = "stackable-*", allow = ["OSL-3.0"] },
+    { name = "stackable-regorule-crd", allow = ["OSL-3.0"] },
+    { name = "stackable-regorule-operator-server", allow = ["OSL-3.0"] },
+    { name = "stackable-regorule-operator", allow = ["OSL-3.0"] },
 ]
 
 [[licenses.clarify]]
