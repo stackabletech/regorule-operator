@@ -1,3 +1,4 @@
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -12,13 +13,13 @@ spec:
     singular: regorule
   scope: Namespaced
   versions:
-    - additionalPrinterColumns: []
-      name: v1
+    - name: v1alpha1
       schema:
         openAPIV3Schema:
           description: "Auto-generated derived type for RegoRuleSpec via `CustomResource`"
           properties:
             spec:
+              description: "The spec for a RegoRule only has a single field: `rego`.\n\nThe string provided should be a complete and valid Rego rule. This means it also needs to specify a package name."
               properties:
                 rego:
                   type: string

@@ -5,4 +5,7 @@ pub enum Error {
         #[from]
         source: std::io::Error,
     },
+
+    #[error("Object [{obj}] needs to be namespaced!")]
+    NamespaceError { obj: String },
 }
