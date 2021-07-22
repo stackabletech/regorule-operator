@@ -1,4 +1,4 @@
-apiVersion: opa.stackable.tech/v1
+apiVersion: opa.stackable.tech/v1alpha1
 kind: RegoRule
 metadata:
   name: pi
