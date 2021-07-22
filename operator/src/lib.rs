@@ -36,7 +36,11 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
     // TODO: Need to make sure that all Kubernetes names are also valid file names
     for rule in reader.state() {
         let name = format!("{}.rego", rule.name());
-        let namespace = rule.namespace().expect("Needs to be namespaced");
+        let namespace = match rule.namespace() {
+            Some(ns) => ns,
+            None => return Err(error::Error::NamespaceError { obj: rule.name() }),
+        };
+
         let path = Path::new(&namespace).join(name);
 
         let data = rule.spec.rego.as_bytes();
