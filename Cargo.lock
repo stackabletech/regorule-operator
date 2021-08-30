@@ -1833,6 +1833,7 @@ name = "stackable-regorule-operator-server"
 version = "0.1.0-nightly"
 dependencies = [
  "anyhow",
+ "k8s-openapi",
  "schemars",
  "serde_yaml",
  "stackable-operator",
