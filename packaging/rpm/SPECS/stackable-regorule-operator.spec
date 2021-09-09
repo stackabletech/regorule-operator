@@ -5,7 +5,7 @@
 %define _version %{getenv:PACKAGE_VERSION}
 %define _release %{getenv:PACKAGE_RELEASE}
 %define _name %{getenv:BINARY_FILE_NAME}
-%define _bindir /opt/stackable/%{_name}
+%define _bindir /opt/stackable/%{getenv:WORKSPACE_NAME}
 %define _description %{getenv:PACKAGE_DESCRIPTION}
 
 Name: %{_name}
