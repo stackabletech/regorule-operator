@@ -4,7 +4,7 @@
 %define _servicedir /usr/lib/systemd/system
 %define _version %{getenv:PACKAGE_VERSION}
 %define _release %{getenv:PACKAGE_RELEASE}
-%define _name %{getenv:PACKAGE_NAME}
+%define _name %{getenv:BINARY_FILE_NAME}
 %define _bindir /opt/stackable/%{_name}
 %define _description %{getenv:PACKAGE_DESCRIPTION}
 
