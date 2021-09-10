@@ -4,9 +4,10 @@
 %define _servicedir /usr/lib/systemd/system
 %define _version %{getenv:PACKAGE_VERSION}
 %define _release %{getenv:PACKAGE_RELEASE}
-%define _name %{getenv:PACKAGE_NAME}
-%define _bindir /opt/stackable/%{_name}
+%define _name %{getenv:BINARY_FILE_NAME}
+%define _bindir /opt/stackable/%{getenv:WORKSPACE_NAME}
 %define _description %{getenv:PACKAGE_DESCRIPTION}
+%define _crddir /etc/stackable/%{getenv:WORKSPACE_NAME}/crd
 
 Name: %{_name}
 Summary: %{_description}
@@ -52,3 +53,4 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_bindir}/*
 %{_servicedir}/%{name}.service
+%{_crddir}/*
