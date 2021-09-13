@@ -1,5 +1,5 @@
 [Unit]
-Description=Stackable RegoRule Operator
+Description=Stackable Operator for RegoRules
 Before=
 After=network.target
 [Service]
