@@ -1876,7 +1876,7 @@ dependencies = [
 
 [[package]]
 name = "stackable-regorule-crd"
-version = "0.1.0-nightly"
+version = "0.1.0"
 dependencies = [
  "k8s-openapi",
  "kube",
@@ -1910,7 +1910,7 @@ dependencies = [
 
 [[package]]
 name = "stackable-regorule-operator-binary"
-version = "0.1.0-nightly"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "built",
