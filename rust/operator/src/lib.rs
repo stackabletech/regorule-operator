@@ -5,11 +5,13 @@ use flate2::Compression;
 use futures::StreamExt;
 use kube::api::ListParams;
 use kube::Api;
+use kube::CustomResourceExt;
 use kube::ResourceExt;
 use kube_runtime::reflector::store::Writer;
 use kube_runtime::reflector::Store;
 use kube_runtime::{reflector, utils};
 use stackable_operator::client::Client;
+use stackable_operator::error::OperatorResult;
 use stackable_operator::namespace::WatchNamespace;
 use stackable_regorule_crd::RegoRule;
 use std::fs::File;
@@ -17,7 +19,7 @@ use std::future::Future;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 use tar::{Builder, Header};
-use tracing::{info, trace, warn};
+use tracing::{error, info, trace, warn};
 use warp::Filter;
 
 fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
@@ -93,7 +95,19 @@ pub async fn create_server(port: u16) -> impl Future<Output = ()> {
     warp::serve(bundle).run(([0, 0, 0, 0], port))
 }
 
-pub async fn run_reflector_and_server(client: Client, namespace: WatchNamespace, port: u16) {
+pub async fn run_reflector_and_server(
+    client: Client,
+    namespace: WatchNamespace,
+    port: u16,
+) -> OperatorResult<()> {
+    if let Err(error) =
+        stackable_operator::crd::wait_until_crds_present(&client, vec![RegoRule::crd_name()], None)
+            .await
+    {
+        error!("Required CRDs missing, aborting: {:?}", error);
+        return Err(error);
+    };
+
     let reflector = create_controller(client, namespace).await;
     let web_server = create_server(port).await;
 
@@ -101,4 +115,6 @@ pub async fn run_reflector_and_server(client: Client, namespace: WatchNamespace,
         _ = web_server => info!("warp exited"),
         _ = reflector => warn!("reflector drained"),
     }
+
+    Ok(())
 }

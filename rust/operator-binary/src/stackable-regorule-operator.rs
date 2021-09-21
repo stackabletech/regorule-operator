@@ -1,9 +1,7 @@
 use clap::{crate_version, App, AppSettings, Arg, SubCommand};
-use stackable_operator::crd::CustomResourceExt;
 use stackable_operator::{cli, client};
 use stackable_regorule_crd::RegoRule;
 use std::env;
-use tracing::error;
 
 mod built_info {
     // The file has been placed there by the build script.
@@ -48,15 +46,8 @@ async fn main() -> Result<(), anyhow::Error> {
 
     let client = client::create_client(None).await?;
 
-    if let Err(error) =
-        stackable_operator::crd::wait_until_crds_present(&client, vec![&RegoRule::crd_name()], None)
-            .await
-    {
-        error!("Required CRDs missing, aborting: {:?}", error);
-        return Err(error.into());
-    };
-
     let watch_namespace = stackable_operator::namespace::get_watch_namespace()?;
-    stackable_regorule_operator::run_reflector_and_server(client, watch_namespace, port).await;
-    Ok(())
+    stackable_regorule_operator::run_reflector_and_server(client, watch_namespace, port)
+        .await
+        .map_err(|err| anyhow::anyhow!(err.to_string()))
 }
