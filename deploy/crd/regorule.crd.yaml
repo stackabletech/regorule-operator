@@ -6,6 +6,7 @@ metadata:
 spec:
   group: opa.stackable.tech
   names:
+    categories: []
     kind: RegoRule
     plural: regorules
     shortNames:
@@ -13,7 +14,8 @@ spec:
     singular: regorule
   scope: Namespaced
   versions:
-    - name: v1alpha1
+    - additionalPrinterColumns: []
+      name: v1alpha1
       schema:
         openAPIV3Schema:
           description: "Auto-generated derived type for RegoRuleSpec via `CustomResource`"
