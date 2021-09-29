@@ -34,10 +34,12 @@ allow = [
 ]
 
 exceptions = [
+    { name = "stackable-opa-crd", allow = ["OSL-3.0"] },
+    { name = "stackable-zookeeper-crd", allow = ["OSL-3.0"] },
     { name = "stackable-regorule-crd", allow = ["OSL-3.0"] },
-    { name = "stackable-regorule-operator-binary", allow = ["OSL-3.0"] },
     { name = "stackable-regorule-operator", allow = ["OSL-3.0"] },
-]
+    { name = "stackable-regorule-operator-binary", allow = ["OSL-3.0"] },
+    ]
 
 [[licenses.clarify]]
 name = "ring"
@@ -56,7 +58,6 @@ license-files = [
 [sources]
 unknown-registry = "deny"
 unknown-git = "deny"
-required-git-spec = "tag"
 
 [sources.allow-org]
 github = ["stackabletech"]
