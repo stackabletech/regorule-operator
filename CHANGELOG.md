@@ -5,19 +5,23 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Changed
+- `operator-rs` `0.2.2` → `0.3.0` ([#92]).
+- using `operator-rs` reexports ([#92]).
+- moved `wait_until_crds_present` to operator-binary ([#92]).
 
-- `kube-rs`: `0.58` → `0.60` ([#80]).
-- `k8s-openapi` `0.12` → `0.13` and features: `v1_21` → `v1_22` ([#80]).
-- `operator-rs` `0.2.1` → `0.2.2` ([#80]).
+### Removed
+- `kube-rs` ([#92]).
+- `k8s-openapi` ([#92]).
 
-[#80]: https://github.com/stackabletech/regorule-operator/pull/80
+[#92]: https://github.com/stackabletech/regorule-operator/pull/92
 
 ## [0.1.0] - 2021-09-14
 
-
 ### Changed
 - **Breaking:** Repository structure was changed and the -server crate renamed to -binary. As part of this change the -server suffix was removed from both the package name for os packages and the name of the executable ([#63]).
-- 
+ 
 ### Added
 
 - Initial release
+
+[#63]: https://github.com/stackabletech/regorule-operator/pull/63
