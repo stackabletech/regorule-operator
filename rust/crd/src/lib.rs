@@ -1,6 +1,6 @@
-use kube::CustomResource;
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use stackable_operator::kube::CustomResource;
+use stackable_operator::schemars::{self, JsonSchema};
 
 /// The spec for a RegoRule only has a single field: `rego`.
 ///
@@ -15,7 +15,10 @@ use serde::{Deserialize, Serialize};
     kind = "RegoRule",
     shortname = "rego",
     plural = "regorules",
-    namespaced
+    namespaced,
+    kube_core = "stackable_operator::kube::core",
+    k8s_openapi = "stackable_operator::k8s_openapi",
+    schemars = "stackable_operator::schemars"
 )]
 pub struct RegoRuleSpec {
     pub rego: String,

@@ -3,15 +3,14 @@ mod error;
 use flate2::write::GzEncoder;
 use flate2::Compression;
 use futures::StreamExt;
-use kube::api::ListParams;
-use kube::Api;
-use kube::CustomResourceExt;
-use kube::ResourceExt;
-use kube_runtime::reflector::store::Writer;
-use kube_runtime::reflector::Store;
-use kube_runtime::{reflector, utils};
 use stackable_operator::client::Client;
 use stackable_operator::error::OperatorResult;
+use stackable_operator::kube::core::params::ListParams;
+use stackable_operator::kube::runtime::reflector::store::Writer;
+use stackable_operator::kube::runtime::reflector::Store;
+use stackable_operator::kube::runtime::{reflector, utils};
+use stackable_operator::kube::Api;
+use stackable_operator::kube::ResourceExt;
 use stackable_operator::namespace::WatchNamespace;
 use stackable_regorule_crd::RegoRule;
 use std::fs::File;
@@ -19,7 +18,7 @@ use std::future::Future;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 use tar::{Builder, Header};
-use tracing::{error, info, trace, warn};
+use tracing::{info, trace, warn};
 use warp::Filter;
 
 fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
@@ -71,7 +70,10 @@ pub async fn create_controller(
     let api: Api<RegoRule> = namespace.get_api(&client);
     let store: Writer<RegoRule> = reflector::store::Writer::<RegoRule>::default();
     let reader: Store<RegoRule> = store.as_reader();
-    let rf = reflector(store, kube_runtime::watcher(api, ListParams::default()));
+    let rf = reflector(
+        store,
+        stackable_operator::kube::runtime::watcher(api, ListParams::default()),
+    );
 
     // need to run/drain the reflector - so utilize the for_each to rebuild the bundle files
     utils::try_flatten_touched(rf)
@@ -100,14 +102,6 @@ pub async fn run_reflector_and_server(
     namespace: WatchNamespace,
     port: u16,
 ) -> OperatorResult<()> {
-    if let Err(error) =
-        stackable_operator::crd::wait_until_crds_present(&client, vec![RegoRule::crd_name()], None)
-            .await
-    {
-        error!("Required CRDs missing, aborting: {:?}", error);
-        return Err(error);
-    };
-
     let reflector = create_controller(client, namespace).await;
     let web_server = create_server(port).await;
 

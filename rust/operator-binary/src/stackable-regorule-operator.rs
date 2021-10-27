@@ -1,7 +1,10 @@
 use clap::{crate_version, App, AppSettings, Arg, SubCommand};
-use stackable_operator::{cli, client};
+use stackable_operator::kube::CustomResourceExt;
+use stackable_operator::{cli, client, error};
 use stackable_regorule_crd::RegoRule;
 use std::env;
+use std::process::exit;
+use tracing::error;
 
 mod built_info {
     // The file has been placed there by the build script.
@@ -9,7 +12,7 @@ mod built_info {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), anyhow::Error> {
+async fn main() -> Result<(), error::Error> {
     stackable_operator::logging::initialize_logging("REGORULE_OPERATOR_LOG");
 
     // Handle CLI arguments
@@ -33,7 +36,13 @@ async fn main() -> Result<(), anyhow::Error> {
     }
 
     // Safe unwrap because we define a default
-    let port = matches.value_of("port").unwrap().parse()?;
+    let port = match matches.value_of("port").unwrap().parse() {
+        Ok(port) => port,
+        Err(err) => {
+            error!("Cannot parse provided port: {:?}", err);
+            exit(-1);
+        }
+    };
 
     stackable_operator::utils::print_startup_string(
         built_info::PKG_DESCRIPTION,
@@ -46,8 +55,14 @@ async fn main() -> Result<(), anyhow::Error> {
 
     let client = client::create_client(None).await?;
 
+    if let Err(error) =
+        stackable_operator::crd::wait_until_crds_present(&client, vec![RegoRule::crd_name()], None)
+            .await
+    {
+        error!("Required CRDs missing, aborting: {:?}", error);
+        return Err(error);
+    };
+
     let watch_namespace = stackable_operator::namespace::get_watch_namespace()?;
-    stackable_regorule_operator::run_reflector_and_server(client, watch_namespace, port)
-        .await
-        .map_err(|err| anyhow::anyhow!(err.to_string()))
+    stackable_regorule_operator::run_reflector_and_server(client, watch_namespace, port).await
 }

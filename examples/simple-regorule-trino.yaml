@@ -1,0 +1,89 @@
+apiVersion: opa.stackable.tech/v1alpha1
+kind: RegoRule
+metadata:
+  name: trino2
+spec:
+  rego: |
+  package trino
+
+  users = {"admin":{"schemas":{"iris":{"read":true,"write":true}},"tables":{"iris_csv":{"read":true,"write":null},"iris_parquet":{"read":true,"write":true}}}}
+
+  default can_access_table = false
+  can_access_table {
+    user_can_read_table
+  }
+
+  default can_create_table = false
+  can_create_table {
+    user_can_write_table
+  }
+
+  default can_drop_table = false
+  can_drop_table {
+    user_can_write_table
+  }
+
+  default can_show_tables = false
+  can_show_tables {
+    user_can_read_table
+  }
+
+  default can_access_schema = false
+  can_access_schema {
+    user_can_read_schema
+  }
+
+  default can_create_schema = false
+  can_create_schema {
+    user_can_write_schema
+  }
+
+  default can_drop_schema = false
+  can_drop_schema {
+    user_can_write_schema
+  }
+
+  default can_show_schemas = false
+  can_show_schemas {
+    user_can_read_schema
+  }
+
+  default can_access_catalog = false
+  can_access_catalog {
+    is_valid_user
+  }
+
+  default can_execute_query = false
+  can_execute_query {
+    is_valid_user
+  }
+
+  default can_select_from_columns = false
+  can_select_from_columns {
+    is_valid_user
+  }
+
+  default can_view_query_owned_by = false
+  can_view_query_owned_by {
+    is_valid_user
+  }
+
+  user_can_read_table {
+    users[input.input.user.name].tables[input.input.request.table.table].read == true
+  }
+
+  user_can_write_table {
+    users[input.input.user.name].tables[input.input.request.table.table].write == true
+  }
+
+  user_can_read_schema {
+    users[input.input.user.name].schemas[input.input.request.table.schema].read == true
+  }
+
+  user_can_write_schema {
+    users[input.input.user.name].schemas[input.input.request.table.schema].write == true
+  }
+
+  is_valid_user {
+    _ = users[input.input.user.name]
+  }
