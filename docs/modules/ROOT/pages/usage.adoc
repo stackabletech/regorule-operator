@@ -1,16 +1,83 @@
 = Usage
 
-The cluster is configured via a YAML file.
+The operator should be deployed in a pod and requires service accounts, and cluster roles to access the CRD and custom resources:
+```
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: regorule-operator
+      namespace: default
 
-[source,yaml]
-----
-apiVersion: opa.stackable.tech/v1
-kind: RegoRule
-metadata:
-  name: simple
-spec:
-  rego: |
-    package foobar
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: regorule-operator
+    rules:
+    - apiGroups:
+      - opa.stackable.tech
+      resources:
+      - regorules
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - list
+      - watch
 
-    simple := foo
-----
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: regorule-operator
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: regorule-operator
+    subjects:
+    - kind: ServiceAccount
+      name: regorule-operator
+      namespace: default
+
+    ---
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: regorule-simple-server-single
+      labels:
+        app.kubernetes.io/name: regorule
+        app.kubernetes.io/instance: simple
+    spec:
+      containers:
+        - name: regorule
+          image: docker.stackable.tech/stackable/regorule-operator:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 3030
+            hostPort: 3030
+            name: client
+            protocol: TCP
+      serviceAccountName: regorule-operator
+      hostNetwork: true
+
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: regorule-service
+    spec:
+      selector:
+        app.kubernetes.io/name: regorule
+        app.kubernetes.io/instance: simple
+      ports:
+        - protocol: TCP
+          port: 3030
+          targetPort: 3030
+```

@@ -14,7 +14,7 @@ NOTE: Currently, the bundle file will be created on disk in the current working 
 == Building
 
 This operator is written in Rust.
-It is developed against the latest Rust release (1.51 at the time of writing this), earlier versions might work but are untested.
+It is developed against the latest Rust release (1.56 at the time of writing this), earlier versions might work but are untested.
 
     cargo build --release
 
