@@ -4,8 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [0.2.0] - 2021-10-28
+### Changed
+- `operator-rs` `0.3.0` → `0.4.0` ([#96]).
+- `bundle.tar.gz` now written to `tmp` to avoid permission problems in container ([#96]).
 
+### Fixed
+- `Reporule` artifacts (in custom resource) to `Regorule` ([#96]).
+
+[#96]: https://github.com/stackabletech/regorule-operator/pull/96
+
+## [0.2.0] - 2021-10-28
 
 ### Changed
 - `operator-rs` `0.2.2` → `0.3.0` ([#92]).

@@ -28,7 +28,7 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
         .expect("Clock went backwards")
         .as_secs();
 
-    let tar_gz = File::create("bundle.tar.gz")?;
+    let tar_gz = File::create("/tmp/bundle.tar.gz")?;
     let gz_encoder = GzEncoder::new(tar_gz, Compression::best());
     let mut tar_builder = Builder::new(gz_encoder);
 
@@ -91,8 +91,8 @@ pub async fn create_server(port: u16) -> impl Future<Output = ()> {
     // TODO: Support ETag
     // TODO: Support TLS
     // TODO: Support configuring the listening address
-    let bundle =
-        warp::path!("opa" / "v1" / "opa" / "bundle.tar.gz").and(warp::fs::file("bundle.tar.gz"));
+    let bundle = warp::path!("opa" / "v1" / "opa" / "bundle.tar.gz")
+        .and(warp::fs::file("/tmp/bundle.tar.gz"));
     let bundle = bundle.with(warp::log("bundle"));
     warp::serve(bundle).run(([0, 0, 0, 0], port))
 }
