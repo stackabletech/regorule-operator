@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3.0] - 2021-11-12
+
+
 ### Changed
 - `operator-rs` `0.3.0` → `0.4.0` ([#96]).
 - `bundle.tar.gz` now written to `tmp` to avoid permission problems in container ([#96]).
