@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.2.1]
 
 ### Changed
 - `operator-rs` `0.3.0` → `0.4.0` ([#96]).
