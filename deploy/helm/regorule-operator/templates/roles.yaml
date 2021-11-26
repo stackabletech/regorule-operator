@@ -4,12 +4,13 @@ metadata:
   name: {{ .Release.Name }}-clusterrole
 rules:
   - apiGroups:
-      - hive.stackable.tech
+      - opa.stackable.tech
     resources:
-      - hiveclusters
+      - regorules
     verbs:
       - get
       - list
+      - watch
   - apiGroups:
       - ""
     resources:
