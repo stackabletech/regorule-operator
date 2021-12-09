@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Added build scripts for Heml charts and Docker images.
+
 ## [0.3.0] - 2021-11-12
 
 
