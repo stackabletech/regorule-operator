@@ -1,0 +1,11 @@
+debug/
+target/
+**/*.rs.bk
+
+.idea/
+*.iws
+*.iml
+
+*.tgz
+deploy/helm/regorule-operator/configs
+deploy/helm/regorule-operator/templates/crds.yaml
