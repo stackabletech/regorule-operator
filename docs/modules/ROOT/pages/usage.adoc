@@ -1,6 +1,6 @@
 = Usage
 
-The cluster is configured via a YAML file.
+The cluster is configured via a YAML file. The Regorule Operator port is fixed to `3030`.
 
 [source,yaml]
 ----

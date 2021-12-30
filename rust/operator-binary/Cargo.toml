@@ -1,39 +1,35 @@
 [package]
-authors = ["Lars Francke <lars.francke@stackable.de>"]
+authors = ["Stackable GmbH <info@stackable.de>"]
 build = "build.rs"
 description = "Stackable RegoRule Operator"
-edition = "2018"
+edition = "2021"
 license = "OSL-3.0"
 name = "stackable-regorule-operator-binary"
 repository = "https://github.com/stackabletech/regorule-operator"
 version = "0.5.0-nightly"
 
 [dependencies]
-stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", tag = "0.4.0" }
+stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", tag = "0.7.0" }
 stackable-regorule-crd = { path = "../crd" }
-stackable-regorule-operator = { path = "../operator" }
 
 anyhow = "1.0"
 clap = "2.33"
+flate2 = "1.0"
+futures = "0.3"
 schemars = "0.8"
 serde_yaml = "0.8"
+snafu = "0.6"
+structopt = "0.3"
+tar = "0.4"
 tokio = { version = "1.15", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1"
+warp = "0.3"
 
 [build-dependencies]
 built = { version =  "0.5", features = ["chrono", "git2"] }
-stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", tag = "0.4.0" }
+stackable-operator = { git = "https://github.com/stackabletech/operator-rs.git", tag = "0.7.0" }
 stackable-regorule-crd = { path = "../crd" }
-
-[package.metadata.deb]
-name = "stackable-regorule-operator"
-maintainer-scripts = "../../packaging/debian/"
-systemd-units = { enable = false, unit-name = "stackable-regorule-operator" }
-assets = [
-    ["../../target/release/stackable-regorule-operator", "opt/stackable/regorule-operator/", "755"],
-    ["../../deploy/crd/regorule.crd.yaml", "etc/stackable/regorule-operator/crd/", "644"],
-]
 
 [[bin]]
 name = "stackable-regorule-operator"
-path = "src/stackable-regorule-operator.rs"
+path = "src/main.rs"
