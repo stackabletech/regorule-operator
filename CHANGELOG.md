@@ -4,12 +4,25 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- `operator-rs` `0.4.0` → `0.7.0` ([#156]).
+- Updated docs for helm, docker etc. ([#156]). 
+
+### Removed
+
+- Port configuration via CLI (fixed to 3030) ([#156]).
+- Packaging ([#156]).
+- `Operator` crate ([#156]).
+
+[#156]: https://github.com/stackabletech/regorule-operator/pull/156
+
 ## [0.4.0] - 2021-12-09
 
 
 ### Changed
 
-- Added build scripts for Heml charts and Docker images.
+- Added build scripts for Helm charts and Docker images.
 
 ## [0.3.0] - 2021-11-12
 
