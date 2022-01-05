@@ -64,3 +64,4 @@ the time of writing).
 ----
 cargo run -- crd | kubectl apply -f -
 cargo run -- run
+----
