@@ -16,9 +16,11 @@ use stackable_operator::schemars::{self, JsonSchema};
     shortname = "rego",
     plural = "regorules",
     namespaced,
-    kube_core = "stackable_operator::kube::core",
-    k8s_openapi = "stackable_operator::k8s_openapi",
-    schemars = "stackable_operator::schemars"
+    crates(
+        kube_core = "stackable_operator::kube::core",
+        k8s_openapi = "stackable_operator::k8s_openapi",
+        schemars = "stackable_operator::schemars"
+    )
 )]
 pub struct RegoRuleSpec {
     pub rego: String,

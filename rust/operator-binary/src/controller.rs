@@ -1,8 +1,7 @@
-mod error;
-
 use flate2::write::GzEncoder;
 use flate2::Compression;
 use futures::StreamExt;
+use snafu::{OptionExt, ResultExt, Snafu};
 use stackable_operator::client::Client;
 use stackable_operator::error::OperatorResult;
 use stackable_operator::kube::core::params::ListParams;
@@ -21,14 +20,26 @@ use tar::{Builder, Header};
 use tracing::{info, trace, warn};
 use warp::Filter;
 
-fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
+#[derive(Snafu, Debug)]
+#[allow(clippy::enum_variant_names)]
+pub enum Error {
+    #[snafu(display("io error occured: {}", source))]
+    IoError { source: std::io::Error },
+    #[snafu(display("object [{}] needs to be namespaced!", obj))]
+    NoNamespace { obj: String },
+}
+
+type Result<T, E = Error> = std::result::Result<T, E>;
+
+fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<()> {
     // This will be the timestamp for all files in our bundle
     let time = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("Clock went backwards")
         .as_secs();
 
-    let tar_gz = File::create("/tmp/bundle.tar.gz")?;
+    let path = "/tmp/bundle.tar.gz";
+    let tar_gz = File::create(path).context(IoError)?;
     let gz_encoder = GzEncoder::new(tar_gz, Compression::best());
     let mut tar_builder = Builder::new(gz_encoder);
 
@@ -37,10 +48,7 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
     // TODO: Need to make sure that all Kubernetes names are also valid file names
     for rule in reader.state() {
         let name = format!("{}.rego", rule.name());
-        let namespace = match rule.namespace() {
-            Some(ns) => ns,
-            None => return Err(error::Error::NamespaceError { obj: rule.name() }),
-        };
+        let namespace = rule.namespace().context(NoNamespace { obj: rule.name() })?;
 
         let path = Path::new(&namespace).join(name);
 
@@ -52,10 +60,12 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<(), error::Error> {
         header.set_mode(0o440);
         header.set_mtime(time);
 
-        tar_builder.append_data(&mut header, path, data)?;
+        tar_builder
+            .append_data(&mut header, path, data)
+            .context(IoError)?;
     }
 
-    tar_builder.finish()?;
+    tar_builder.finish().context(IoError)?;
 
     Ok(())
 }
