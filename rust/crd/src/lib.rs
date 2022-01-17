@@ -2,6 +2,9 @@ use serde::{Deserialize, Serialize};
 use stackable_operator::kube::CustomResource;
 use stackable_operator::schemars::{self, JsonSchema};
 
+pub const APP_PORT: u16 = 3030;
+pub const APP_NAME: &str = "regorule-operator";
+
 /// The spec for a RegoRule only has a single field: `rego`.
 ///
 /// The string provided should be a complete and valid Rego rule.
