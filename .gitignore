@@ -7,5 +7,3 @@ target/
 *.iml
 
 *.tgz
-deploy/helm/regorule-operator/configs
-deploy/helm/regorule-operator/templates/crds.yaml
