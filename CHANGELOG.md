@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- ClusterIP service ([#165]).
+
 ### Changed
 
-- `operator-rs` `0.4.0` → `0.7.0` ([#156]).
+- `operator-rs` `0.4.0` → `0.8.0` ([#165]).
 - Updated docs for helm, docker etc. ([#156]). 
 
 ### Removed
@@ -15,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Packaging ([#156]).
 - `Operator` crate ([#156]).
 
+[#165]: https://github.com/stackabletech/regorule-operator/pull/165
 [#156]: https://github.com/stackabletech/regorule-operator/pull/156
 
 ## [0.4.0] - 2021-12-09

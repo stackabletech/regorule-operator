@@ -1,18 +1,18 @@
 mod controller;
 
+use clap::Parser;
 use stackable_operator::cli::Command;
 use stackable_operator::kube::CustomResourceExt;
-use stackable_regorule_crd::RegoRule;
-use structopt::StructOpt;
+use stackable_regorule_crd::{RegoRule, APP_PORT};
 
 mod built_info {
     include!(concat!(env!("OUT_DIR"), "/built.rs"));
 }
 
-#[derive(StructOpt)]
-#[structopt(about = built_info::PKG_DESCRIPTION, author = "Stackable GmbH - info@stackable.de")]
+#[derive(Parser)]
+#[clap(about = built_info::PKG_DESCRIPTION, author = stackable_operator::cli::AUTHOR)]
 struct Opts {
-    #[structopt(subcommand)]
+    #[clap(subcommand)]
     cmd: Command,
 }
 
@@ -20,7 +20,7 @@ struct Opts {
 async fn main() -> anyhow::Result<()> {
     stackable_operator::logging::initialize_logging("REGORULE_OPERATOR_LOG");
 
-    let opts = Opts::from_args();
+    let opts = Opts::parse();
     match opts.cmd {
         Command::Crd => println!("{}", serde_yaml::to_string(&RegoRule::crd())?,),
         Command::Run { .. } => {
@@ -39,7 +39,7 @@ async fn main() -> anyhow::Result<()> {
             .await?;
 
             let watch_namespace = stackable_operator::namespace::get_watch_namespace()?;
-            controller::run_reflector_and_server(client, watch_namespace, 3030).await?;
+            controller::run_reflector_and_server(client, watch_namespace, APP_PORT).await?;
         }
     };
 

@@ -73,10 +73,7 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<()> {
 /// This creates a Controller which watches `RegoRule`s in Kubernetes.
 ///
 /// This is an async method and the returned future needs to be consumed to make progress.
-pub async fn create_controller(
-    client: Client,
-    namespace: WatchNamespace,
-) -> impl Future<Output = ()> {
+async fn create_controller(client: Client, namespace: WatchNamespace) -> impl Future<Output = ()> {
     let api: Api<RegoRule> = namespace.get_api(&client);
     let store: Writer<RegoRule> = reflector::store::Writer::<RegoRule>::default();
     let reader: Store<RegoRule> = store.as_reader();
@@ -97,7 +94,7 @@ pub async fn create_controller(
         })
 }
 
-pub async fn create_server(port: u16) -> impl Future<Output = ()> {
+async fn create_server(port: u16) -> impl Future<Output = ()> {
     // TODO: Support ETag
     // TODO: Support TLS
     // TODO: Support configuring the listening address
