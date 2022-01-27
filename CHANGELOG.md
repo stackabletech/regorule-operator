@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.5.0] - 2022-01-27
+
+
 ### Added
 
 - ClusterIP service ([#165]).
