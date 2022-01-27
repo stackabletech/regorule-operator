@@ -8,4 +8,4 @@ metadata:
   labels:
     app.kubernetes.io/name: regorule-operator
     app.kubernetes.io/instance: regorule-operator
-    app.kubernetes.io/version: "0.5.0-nightly"
+    app.kubernetes.io/version: "0.6.0-nightly"
