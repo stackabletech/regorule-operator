@@ -1,12 +1,10 @@
 ---
 apiVersion: v2
 name: regorule-operator
-version: <version_placeholder>
-appVersion: "<version_placeholder>"
+version: 0.6.0-nightly
+appVersion: "0.6.0-nightly"
 description: The Stackable Operator for RegoRule
-
 home: https://github.com/stackabletech/regorule-operator
-
 maintainers:
   - name: Stackable
     url: https://www.stackable.tech
