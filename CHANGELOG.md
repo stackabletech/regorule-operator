@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- `operator-rs` `0.8.0` → `0.9.0` ([#193]).
+- `snafu` `0.6` -> `0.7` ([#193]).
+
+[#193]: https://github.com/stackabletech/regorule-operator/pull/193
+
 ## [0.5.0] - 2022-01-27
 
 
