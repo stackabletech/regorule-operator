@@ -23,9 +23,16 @@ use warp::Filter;
 #[derive(Snafu, Debug)]
 #[allow(clippy::enum_variant_names)]
 pub enum Error {
-    #[snafu(display("io error occured: {}", source))]
-    IoError { source: std::io::Error },
-    #[snafu(display("object [{}] needs to be namespaced!", obj))]
+    #[snafu(display("could not create [{path}]"))]
+    CreateBundleFailed {
+        source: std::io::Error,
+        path: String,
+    },
+    #[snafu(display("could not append to bundle tar"))]
+    AppendToBundleTarFailed { source: std::io::Error },
+    #[snafu(display("could not create bundle tar"))]
+    CreateBundleTarFailed { source: std::io::Error },
+    #[snafu(display("object [{obj}] needs to be namespaced!"))]
     NoNamespace { obj: String },
 }
 
@@ -39,7 +46,9 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<()> {
         .as_secs();
 
     let path = "/tmp/bundle.tar.gz";
-    let tar_gz = File::create(path).context(IoError)?;
+    let tar_gz = File::create(path).with_context(|_| CreateBundleFailedSnafu {
+        path: path.to_string(),
+    })?;
     let gz_encoder = GzEncoder::new(tar_gz, Compression::best());
     let mut tar_builder = Builder::new(gz_encoder);
 
@@ -48,7 +57,9 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<()> {
     // TODO: Need to make sure that all Kubernetes names are also valid file names
     for rule in reader.state() {
         let name = format!("{}.rego", rule.name());
-        let namespace = rule.namespace().context(NoNamespace { obj: rule.name() })?;
+        let namespace = rule
+            .namespace()
+            .context(NoNamespaceSnafu { obj: rule.name() })?;
 
         let path = Path::new(&namespace).join(name);
 
@@ -62,10 +73,10 @@ fn rebuild_bundle(reader: &Store<RegoRule>) -> Result<()> {
 
         tar_builder
             .append_data(&mut header, path, data)
-            .context(IoError)?;
+            .context(AppendToBundleTarFailedSnafu)?;
     }
 
-    tar_builder.finish().context(IoError)?;
+    tar_builder.finish().context(CreateBundleTarFailedSnafu)?;
 
     Ok(())
 }
