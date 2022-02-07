@@ -1,10 +1,14 @@
 ---
+# Source: regorule-operator/templates/configmap.yaml
 apiVersion: v1
-data: {}
+data:
+  {}
 kind: ConfigMap
 metadata:
   name: regorule-operator-configmap
   labels:
+    helm.sh/chart: regorule-operator-0.6.0-nightly
     app.kubernetes.io/name: regorule-operator
     app.kubernetes.io/instance: regorule-operator
     app.kubernetes.io/version: "0.6.0-nightly"
+    app.kubernetes.io/managed-by: Helm
