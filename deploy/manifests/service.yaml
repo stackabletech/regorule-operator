@@ -1,14 +1,15 @@
 ---
+# Source: regorule-operator/templates/service.yaml
 apiVersion: v1
 kind: Service
-metadata:
+metadata: 
   name: regorule-operator
 spec:
   type: ClusterIP
   ports:
-    - name: http
-      port: 3030
-      protocol: TCP
+  - name: http
+    port: 3030
+    protocol: TCP
   selector:
     app.kubernetes.io/name: regorule-operator
     app.kubernetes.io/instance: regorule-operator
