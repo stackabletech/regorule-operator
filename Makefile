@@ -39,7 +39,10 @@ version:
 	yq eval -i '.version = ${VERSION} | .appVersion = ${VERSION}' deploy/helm/regorule-operator/Chart.yaml
 
 config:
-	cp -r deploy/config-spec deploy/helm/regorule-operator/configs
+	if [ -d "deploy/config-spec/" ]; then\
+		mkdir -p deploy/helm/regorule-operator/configs;\
+		cp -r deploy/config-spec/* deploy/helm/regorule-operator/configs;\
+	fi
 
 crds:
 	mkdir -p deploy/helm/regorule-operator/crds
