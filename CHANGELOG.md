@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.6.0] - 2022-02-09
+
+
 ### Changed
 
 - `operator-rs` `0.8.0` → `0.9.0` ([#193]).
