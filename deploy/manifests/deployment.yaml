@@ -5,10 +5,10 @@ kind: Deployment
 metadata:
   name: regorule-operator-deployment
   labels:
-    helm.sh/chart: regorule-operator-0.6.0
+    helm.sh/chart: regorule-operator-0.7.0-nightly
     app.kubernetes.io/name: regorule-operator
     app.kubernetes.io/instance: regorule-operator
-    app.kubernetes.io/version: "0.6.0"
+    app.kubernetes.io/version: "0.7.0-nightly"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -31,7 +31,7 @@ spec:
         - name: regorule-operator
           securityContext:
             {}
-          image: "docker.stackable.tech/stackable/regorule-operator:0.6.0"
+          image: "docker.stackable.tech/stackable/regorule-operator:0.7.0-nightly"
           imagePullPolicy: IfNotPresent
           resources:
             {}

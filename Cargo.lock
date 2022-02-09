@@ -1780,7 +1780,7 @@ dependencies = [
 
 [[package]]
 name = "stackable-regorule-crd"
-version = "0.6.0"
+version = "0.7.0-nightly"
 dependencies = [
  "serde",
  "serde_json",
@@ -1789,7 +1789,7 @@ dependencies = [
 
 [[package]]
 name = "stackable-regorule-operator"
-version = "0.6.0"
+version = "0.7.0-nightly"
 dependencies = [
  "anyhow",
  "built",
